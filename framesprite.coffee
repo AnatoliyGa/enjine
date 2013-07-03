@@ -13,7 +13,7 @@
 		draw: (context, camera) ->
 			context.save();
 			context.translate(@x - camera.x, @y - camera.y)
-			context.rotate(angle)
+			context.rotate(@angle)
 			context.scale(@xScale, @yScale)
 			context.drawImage(@image, @frameX, @frameY, @frameWidth, @frameHeight, -@frameWidth * @xPivot, -@frameHeight * @yPivot, @frameWidth, @frameHeight)
 			context.restore()
