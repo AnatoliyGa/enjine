@@ -9,7 +9,7 @@
 		objects: []
 
 		add: (objs) ->
-			if object instanceof Array
+			if objs instanceof Array
 				@objects = @objects.concat(objs)
 			else
 				@objects.push(objs)
