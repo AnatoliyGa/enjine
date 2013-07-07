@@ -5,8 +5,9 @@
 
 @module("Enjine", ->
 	class @DrawableManager
-		unsorted: true
-		objects: []
+		constructor: ->
+			@unsorted = true
+			@objects = []
 
 		add: (objs) ->
 			if objs instanceof Array
@@ -29,10 +30,10 @@
 
 		# `obj` can be either the first index or the object(s) to remove
 		remove: (obj, indexTwo) ->
-			if obj instanceof Drawable
+			if obj instanceof Enjine.Drawable
 				@objects[t..t] = [] if (t = @objects.indexOf(obj)) > -1
 			else if obj instanceof Array
-				@remove(item) for item in @objects
+				@remove(item) for item in obj
 			else
 				@objects[obj...indexTwo] = []
 			@
