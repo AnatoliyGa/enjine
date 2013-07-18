@@ -3,23 +3,16 @@
   Code by Rob Kleffner, 2011
 ###
 
-@module("Enjine", ->
-  @Buttons =
-    mouseLeft: 0
-    mouseRight: 2
-    mouseWheel: 1
-)
+define ->
+  class Mouse
+    @x: 0
+    @y: 0
+    @pressed: []
+    @wasPressed: []
+    @element: null
+    @containsMouse: false
 
-@module("Enjine", ->
-  @Mouse =
-    x: 0
-    y: 0
-    pressed: []
-    wasPressed: []
-    element: null
-    containsMouse: false
-
-    initialize: (element) ->
+    @initialize: (element) ->
       @element = element
       element.onmousedown = (event) => @pressed[event.button] = true
       element.onmouseup = (event) => @pressed[event.button] = false
@@ -27,17 +20,17 @@
       element.onmouseover = (event) => @containsMouse = true
       element.onmouseout = (event) => @containsMouse = false; @x = -1; @y = -1;
 
-    isButtonDown: (key) ->
+    @isButtonDown: (key) ->
       if @pressed[key]?
         return @pressed[key]
       false
 
-    wasButtonDown: (key) ->
+    @wasButtonDown: (key) ->
       if @wasPressed[key]?
         return @wasPressed[key] && not @pressed[key]
       false
 
-    mouseMoveEvent: (event) ->
+    @mouseMoveEvent: (event) ->
       @x = event.pageX;
       @y = event.pageY;
 
@@ -48,6 +41,5 @@
           @y -= obj.offsetTop
           obj = obj.offsetParent
 
-    updatePressed: ->
+    @updatePressed: ->
       @wasPressed = @pressed.slice(0)
-)

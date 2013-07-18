@@ -4,8 +4,14 @@
   Code by Rob Kleffner, 2011
 ###
 
-@module("Enjine", ->
-  class @Application
+define (require) ->
+  GameCanvas = require 'enjine/gamecanvas'
+  GameStateContext = require 'enjine/gamestatecontext'
+  GameTimer = require 'enjine/gametimer'
+  Keyboard = require 'enjine/keyboard'
+  Mouse = require 'enjine/mouse'
+
+  class Application
     canvas: null
     timer: null
     stateContext: null
@@ -19,18 +25,17 @@
       @stateContext.draw(@canvas.betterBuffer)
       @canvas.endDraw()
 
-      Enjine.Keyboard.updatePressed()
-      Enjine.Mouse.updatePressed()
+      Keyboard.updatePressed()
+      Mouse.updatePressed()
 
     initialize: (canvasId, defaultState, resWidth, resHeight) =>
-      @canvas = new Enjine.GameCanvas()
-      @timer = new Enjine.GameTimer()
-      Enjine.Keyboard.initialize()
-      Enjine.Mouse.initialize(document.getElementById(canvasId))
+      @canvas = new GameCanvas()
+      @timer = new GameTimer()
+      Keyboard.initialize()
+      Mouse.initialize(document.getElementById(canvasId))
       @canvas.initialize(canvasId, resWidth, resHeight)
       @timer.updateObject = this
 
-      @stateContext = new Enjine.GameStateContext(defaultState)
+      @stateContext = new GameStateContext(defaultState)
 
       @timer.start()
-)

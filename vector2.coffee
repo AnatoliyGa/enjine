@@ -3,12 +3,14 @@
   Code by Rob Kleffner, 2011
 ###
 
-@module("Enjine", ->
-  class @Vector2
+define (require) ->
+  Vector2 = require 'enjine/vector2'
+
+  class Vector2
     constructor: (@x, @y) ->
 
     equals: (vecOrX, y) ->
-      if vecOrX instanceof Enjine.Vector2
+      if vecOrX instanceof Vector2
         return (@x == vecOrX.x and @y == vecOrX.y)
       else
         return (@x == vecOrX and @y == y)
@@ -75,4 +77,3 @@
 
     this.div = (v1, v2) ->
       new Vector2(v1.x / v2.x, v1.y / v2.y)
-)

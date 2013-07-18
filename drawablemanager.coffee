@@ -1,50 +1,51 @@
 ﻿###
-	Class to help manage and draw a collection of sprites.
-	Code by Rob Kleffner, 2011
+  Class to help manage and draw a collection of sprites.
+  Code by Rob Kleffner, 2011
 ###
 
-@module("Enjine", ->
-	class @DrawableManager
-		constructor: ->
-			@unsorted = true
-			@objects = []
+define (require) ->
+  Drawable = require 'enjine/drawable'
 
-		add: (objs) ->
-			if objs instanceof Array
-				@objects = @objects.concat(objs)
-			else
-				@objects.push(objs)
-			@unsorted = true
-			@
+  class DrawableManager
+    constructor: ->
+      @unsorted = true
+      @objects = []
 
-		clear: ->
-			@objects = []
-			@
+    add: (objs) ->
+      if objs instanceof Array
+        @objects = @objects.concat(objs)
+      else
+        @objects.push(objs)
+      @unsorted = true
+      @
 
-		contains: (obj) ->
-			i = @objects.length
-			while i -= 1
-				if (@objects[i] is obj)
-					true
-			false
+    clear: ->
+      @objects = []
+      @
 
-		# `obj` can be either the first index or the object(s) to remove
-		remove: (obj, indexTwo) ->
-			if obj instanceof Enjine.Drawable
-				@objects[t..t] = [] if (t = @objects.indexOf(obj)) > -1
-			else if obj instanceof Array
-				@remove(item) for item in obj
-			else
-				@objects[obj...indexTwo] = []
-			@
+    contains: (obj) ->
+      i = @objects.length
+      while i -= 1
+        if (@objects[i] is obj)
+          true
+      false
 
-		update: (delta) ->
-			(item.update?(delta))	for item in @objects
+    # `obj` can be either the first index or the object(s) to remove
+    remove: (obj, indexTwo) ->
+      if obj instanceof Drawable
+        @objects[t..t] = [] if (t = @objects.indexOf(obj)) > -1
+      else if obj instanceof Array
+        @remove(item) for item in obj
+      else
+        @objects[obj...indexTwo] = []
+      @
 
-		draw: (context, camera) ->
-			if @unsorted
-				@unsorted = false
-				@objects.sort((x1, x2) -> return x1.zOrder - x2.zOrder )
+    update: (delta) ->
+      (item.update?(delta)) for item in @objects
 
-			item.draw?(context, camera) for item in @objects
-)
+    draw: (context, camera) ->
+      if @unsorted
+        @unsorted = false
+        @objects.sort((x1, x2) -> return x1.zOrder - x2.zOrder )
+
+      item.draw?(context, camera) for item in @objects
