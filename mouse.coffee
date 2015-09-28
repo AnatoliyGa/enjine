@@ -1,0 +1,45 @@
+﻿###
+  Class that helps to manage mouse input.
+  Code by Rob Kleffner, 2011
+###
+
+define ->
+  class Mouse
+    @x: 0
+    @y: 0
+    @pressed: []
+    @wasPressed: []
+    @element: null
+    @containsMouse: false
+
+    @initialize: (element) ->
+      @element = element
+      element.onmousedown = (event) => @pressed[event.button] = true
+      element.onmouseup = (event) => @pressed[event.button] = false
+      element.onmousemove = (event) => @mouseMoveEvent(event)
+      element.onmouseover = (event) => @containsMouse = true
+      element.onmouseout = (event) => @containsMouse = false; @x = -1; @y = -1;
+
+    @isButtonDown: (key) ->
+      if @pressed[key]?
+        return @pressed[key]
+      false
+
+    @wasButtonDown: (key) ->
+      if @wasPressed[key]?
+        return @wasPressed[key] && not @pressed[key]
+      false
+
+    @mouseMoveEvent: (event) ->
+      @x = event.pageX;
+      @y = event.pageY;
+
+      obj = @element;
+      if obj.offsetParent
+        while obj
+          @x -= obj.offsetLeft
+          @y -= obj.offsetTop
+          obj = obj.offsetParent
+
+    @updatePressed: ->
+      @wasPressed = @pressed.slice(0)
